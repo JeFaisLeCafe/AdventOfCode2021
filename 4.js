@@ -124,6 +124,7 @@ fs.readFile("4_input.txt", "utf-8", (err, data) => {
   // console.log("SCORE:", score);
 });
 
+// -----------
 // PART 2: https://adventofcode.com/2021/day/4#part2
 
 fs.readFile("4_input.txt", "utf-8", (err, data) => {
@@ -211,19 +212,21 @@ fs.readFile("4_input.txt", "utf-8", (err, data) => {
       // then we check if a board is winning
       let winner;
       for (let [index, board] of formattedArr.entries()) {
-        const winningCombinaison = checkBoardIfWinning(board);
-        if (winningCombinaison) {
-          // we found a winner !
-          winner = { board, winningCombinaison, drawnNumber };
-          // let's update the gameState
-          console.log("gameState", gameState);
-          gameState[index] = true;
+        if (gameState[index] !== true) {
+          const winningCombinaison = checkBoardIfWinning(board);
+          if (winningCombinaison) {
+            // we found a winner !
+            winner = { board, winningCombinaison, drawnNumber };
+            // let's update the gameState
+            gameState[index] = true;
+          }
         }
       }
+
       if (winner) {
         // then, if it's the last one, we return it; if not, then we continue playing
         const isLastWinningBoard = gameState.every((v) => v === true);
-        console.log("isLastWinningBoard", isLastWinningBoard);
+        console.log("isLastWinningBoard", isLastWinningBoard, winner);
         if (isLastWinningBoard) {
           console.log("WIN");
           return winner;
